@@ -1,11 +1,13 @@
 {
   "name": "interactive_vid",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "Interactive touchscreen web app for Rangoon West University 25th Anniversary (2001-2026)",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "^14.0.0",
@@ -14,5 +16,9 @@
     "three": "^0.159.0",
     "@react-three/fiber": "^8.15.0",
     "@react-three/drei": "^9.88.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
   }
 }

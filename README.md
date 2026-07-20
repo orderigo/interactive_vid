@@ -1,18 +1,107 @@
-# Interactive Video Presentation
+# Interactive Video Presentation - Rangoon West University 25th Anniversary
 
-Interactive touchscreen web app for university anniversary celebration (2001-2026).
-
-Built with Next.js and Three.js.
+Interactive touchscreen web app for the Rangoon West University 25th Anniversary Golden Jubilee celebration (2001-2026).
 
 ## Features
-- 3D year grid with touch/click interaction
-- Swipe gestures for navigation
-- Fireworks animation on final year
-- Keyboard navigation support
 
-## Setup
+- Touchscreen Support: Full touch and swipe gesture support
+- Interactive Year Grid: 26 years (2001-2026) arranged in a beautiful 3D circular layout
+- Image Preview: Each year displays associated images when selected
+- Fireworks Animation: Spectacular fireworks rising from below on final year (2026)
+- Event Display: Shows "ရန်ကုန်အနောက်ပိုင်းတက္ကသိုလ် (၂၅) နှစ်မြောက်ငွေရတုအထိမ်းအမှတ်" with golden effects
+- Keyboard Navigation: Full keyboard support (arrows, ESC, Home, End)
+- Wow Effects: 3D animations, glowing tiles, starfield background, and more
+- Myanmar-inspired color schemes with gold accents
+
+## Quick Start
 
 npm install
 npm run dev
 
-Open http://localhost:3000
+Open http://localhost:3000 in your browser.
+
+## Usage
+
+### Touch/Swipe Gestures
+- Tap: Select a year to view its image
+- Swipe Left: Navigate to previous year
+- Swipe Right: Navigate to next year
+- ESC: Reset selection
+
+### Keyboard Controls
+- Right Arrow: Next year
+- Left Arrow: Previous year
+- ESC: Reset selection
+- Home: Go to first year (2001)
+- End: Go to final year (2026)
+
+## Customization
+
+### Adding Year Images
+Replace the placeholder image URLs in the yearImages object with your actual university images.
+
+### Event Information
+Modify the event name and subtitle at the top of pages/index.js.
+
+## Tech Stack
+
+- Frontend: Next.js 14
+- 3D Graphics: Three.js r159
+- React 3D: @react-three/fiber
+- 3D Components: @react-three/drei
+
+## Project Structure
+
+interactive_vid/
+├── pages/
+│   ├── index.js      # Main interactive app
+│   └── _app.js       # Next.js app wrapper
+├── styles/
+│   └── globals.css   # Global styles
+├── package.json
+├── next.config.js
+└── README.md
+
+## Visual Features
+
+- 3D Year Tiles: Rotating, glowing tiles with metallic finish
+- Circular Layout: Years arranged in an elegant circle for easy touch access
+- Image Previews: Floating image displays above selected years
+- Fireworks: Particle-based fireworks rising from below the screen
+- Starfield Background: Animated stars with twinkling effects
+- Golden Accents: Special gold coloring for selected elements and final year
+- Smooth Animations: Fluid transitions and bobbing effects
+
+## Touchscreen Optimization
+
+- Large touch targets for easy interaction
+- Enhanced swipe detection with velocity-based navigation
+- Prevented default touch behaviors for smooth experience
+- Responsive design that works on any touchscreen size
+
+## Special Effects for 2026
+
+When reaching 2026:
+- Golden event title appears with animations
+- Spectacular fireworks launch from below the screen
+- Decorative particles orbit the title
+- Special glow effects on all elements
+
+## Deployment
+
+### Local Deployment
+npm run build
+npm run start
+
+### Production Deployment
+Deploy to Vercel, Netlify, or any Node.js hosting.
+
+## License
+
+Private - For Rangoon West University 25th Anniversary use only.
+
+---
+
+Happy 25th Anniversary!
+
+ရန်ကုန်အနောက်ပိုင်းတက္ကသိုလ် (၂၅) နှစ်မြောက်ငွေရတုအထိမ်းအမှတ်
