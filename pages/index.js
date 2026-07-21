@@ -163,7 +163,7 @@ export default function Home() {
           <YearCard key={years.join('-')} years={years} isFinal={years.includes(END_YEAR)} />
         ))}
       </div>
-      <div className="navigationHint">Swipe / drag left or right to move through memories</div>
+      <div className="navigationHint">Swipe / drag left or right • Offline ready after first load</div>
       <div className="progressPill">{cardIndex + 1} / {yearCards.length}</div>
     </main>
   );
