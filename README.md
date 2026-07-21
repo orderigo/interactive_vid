@@ -15,8 +15,10 @@ Interactive touchscreen web app for the Rangoon West University 25th Anniversary
 
 ## Quick Start
 
+```bash
 npm install
 npm run dev
+```
 
 Open http://localhost:3000 in your browser.
 
@@ -87,14 +89,42 @@ When reaching 2026:
 - Decorative particles orbit the title
 - Special glow effects on all elements
 
+## Offline Browser Package
+
+Create a downloadable offline copy that can be opened directly from a browser without running a server:
+
+```bash
+npm run package:offline
+```
+
+This command builds the static site, copies it into `offline-package/`, and creates `interactive_vid_offline.zip`. To use it offline:
+
+1. Share or download `interactive_vid_offline.zip`.
+2. Unzip the file on the target computer.
+3. Open `index.html` in any modern browser.
+
+No internet connection or Node.js server is required after the ZIP file has been created.
+
 ## Deployment
 
-### Local Deployment
-npm run build
-npm run start
+### Static / Offline Deployment
+```bash
+npm run export
+```
 
-### Production Deployment
-Deploy to Vercel, Netlify, or any Node.js hosting.
+Host the generated `out/` folder on any static hosting service, or open `out/index.html` directly in a browser.
+
+### Local Development
+```bash
+npm run dev
+```
+
+### Production Static Package
+```bash
+npm run package:offline
+```
+
+Deploy the generated `out/` folder to Vercel, Netlify, GitHub Pages, or any static hosting service.
 
 ## License
 
