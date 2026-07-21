@@ -1,7 +1,7 @@
 {
   "name": "Rangoon West University Silver Jubilee Memories",
   "short_name": "RWU Jubilee",
-  "description": "Interactive touchscreen memory app for Rangoon West University 25th Anniversary (2001-2026).",
+  "description": "Installable offline touchscreen slide app for Rangoon West University 25th Anniversary (2001-2026).",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

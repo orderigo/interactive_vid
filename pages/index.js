@@ -1,28 +1,75 @@
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 
 const EVENT_NAME = 'ရန်ကုန်အနောက်ပိုင်းတက္ကသိုလ်';
-const EVENT_SUBTITLE = '(၂၅) နှစ်မြောက်ငွေရတုအထိမ်းအမှတ်';
-const START_YEAR = 2001;
+const EVENT_SUBTITLE = '(၂၅) နှစ်မြောက်ငွေရတုအခမ်းအနား';
+const FINAL_TITLE = 'ရန်ကုန်အနောက်ပိုင်းတက္ကသိုလ် (၂၅) နှစ်မြောက်ငွေရတုအခမ်းအနား';
 const END_YEAR = 2026;
 
-const imageThemes = [
-  'linear-gradient(135deg, rgba(255, 223, 116, 0.9), rgba(255, 119, 168, 0.84))',
-  'linear-gradient(135deg, rgba(74, 222, 255, 0.9), rgba(124, 92, 255, 0.84))',
-  'linear-gradient(135deg, rgba(103, 255, 199, 0.9), rgba(28, 164, 255, 0.84))',
+const slideImages = [
+  '/img/Screenshot_20260721-101836.png',
+  '/img/Screenshot_20260721-101925.png',
+  '/img/Screenshot_20260721-102147.png',
+  '/img/Screenshot_20260721-103154.png',
+  '/img/Screenshot_20260721-105110.png',
 ];
 
-const createYearCards = () => {
-  const cards = [[START_YEAR]];
-
-  for (let year = START_YEAR + 1; year < END_YEAR; year += 3) {
-    cards.push(
-      Array.from({ length: Math.min(3, END_YEAR - year) }, (_, index) => year + index)
-    );
-  }
-
-  cards.push([END_YEAR]);
-  return cards;
-};
+const slides = [
+  {
+    year: 2001,
+    image: slideImages[0],
+    title: 'ကျောင်းအမှတ်တရအစ',
+    caption: 'ကျောင်းဓာတ်ပုံကို အကြမ်းထည် placeholder မှာ ထည့်သွင်းပြသထားသည်။',
+    time: '0:00 - 0:06',
+  },
+  {
+    year: 2002,
+    image: slideImages[1],
+    title: 'စာသင်ခန်းနှင့် ကျောင်းလှုပ်ရှားမှု',
+    caption: 'လက်ညှိုးဖြင့် ဘယ်ဘက်သို့ ဆွဲလျှင် နောက်နှစ်အမှတ်တရသို့ ပြောင်းပါသည်။',
+    time: '0:06 - 0:09',
+  },
+  {
+    year: 2005,
+    image: slideImages[2],
+    title: 'နှစ်ပတ်လည် / ပညာရေးပွဲ',
+    caption: 'တေးဂီတသာဖြင့် အမှတ်တရပုံရိပ်ကို အလင်းတန်းနှင့် ပြသထားသည်။',
+    time: '0:09 - 0:12',
+  },
+  {
+    year: 2010,
+    image: slideImages[3],
+    title: 'ကျောင်းဝန်းကျင်နှင့် စုပေါင်းအမှတ်တရ',
+    caption: 'ကျောင်းဝန်းကျင် ရှုခင်း သို့မဟုတ် ဆရာ/ကျောင်းသား စုပေါင်းဓာတ်ပုံနေရာ။',
+    time: '0:12 - 0:15',
+  },
+  {
+    year: 2015,
+    image: slideImages[4],
+    title: 'ဘွဲ့နှင်းသဘင် / Field Trip',
+    caption: 'စည်းချက်ပိုတက်လာသော အခန်းကဏ္ဍအတွက် အမှတ်တရဓာတ်ပုံ။',
+    time: '0:15 - 0:18',
+  },
+  {
+    year: 2020,
+    image: slideImages[0],
+    title: 'Online Class / Mask အမှတ်တရ',
+    caption: 'COVID-19 ကာလအတွင်း လေ့လာသင်ယူမှုများကို ပြန်လည်မြင်တွေ့စေသည်။',
+    time: '0:18 - 0:21',
+  },
+  {
+    year: 2024,
+    image: slideImages[1],
+    title: 'ပြန်လည်လှုပ်ရှားလာသော ကျောင်းဘဝ',
+    caption: 'စာကြည့်တိုက်၊ အားကစားပြိုင်ပွဲနှင့် မကြာသေးမီက လှုပ်ရှားမှုများ။',
+    time: '0:21 - 0:24',
+  },
+  {
+    year: END_YEAR,
+    isFinal: true,
+    time: '0:24 - 0:30',
+  },
+];
 
 function MemoryNodes() {
   const nodes = useMemo(
@@ -66,28 +113,39 @@ function MemoryNodes() {
   );
 }
 
-function YearImagePlaceholder({ year, index }) {
+function TimelinePhoto({ slide }) {
   return (
-    <div className="imagePlaceholder" style={{ background: imageThemes[index % imageThemes.length] }}>
-      <div className="placeholderGlow" />
-      <div className="placeholderIcon">✦</div>
-      <div className="placeholderText">Image Placeholder</div>
-      <div className="placeholderYear">{year}</div>
-    </div>
+    <figure className="timelinePhoto">
+      <Image src={slide.image} alt={`${slide.year} ${slide.title}`} fill sizes="(max-width: 820px) 88vw, 48vw" priority draggable="false" />
+      <figcaption>
+        <span>{slide.time}</span>
+        {slide.caption}
+      </figcaption>
+    </figure>
   );
 }
 
 function FireworkShow() {
   return (
     <div className="fireworkLayer" aria-hidden="true">
-      {Array.from({ length: 12 }, (_, index) => (
+      {Array.from({ length: 20 }, (_, index) => (
         <span
-          className="firework"
+          className={`firework firework${index % 4}`}
           key={index}
           style={{
-            left: `${8 + ((index * 13) % 86)}%`,
-            top: `${10 + ((index * 17) % 58)}%`,
-            animationDelay: `${index * 0.22}s`,
+            left: `${6 + ((index * 11) % 88)}%`,
+            top: `${8 + ((index * 19) % 62)}%`,
+            animationDelay: `${index * 0.16}s`,
+          }}
+        />
+      ))}
+      {Array.from({ length: 10 }, (_, index) => (
+        <span
+          className="rocketTrail"
+          key={`trail-${index}`}
+          style={{
+            left: `${10 + index * 9}%`,
+            animationDelay: `${index * 0.24}s`,
           }}
         />
       ))}
@@ -95,40 +153,48 @@ function FireworkShow() {
   );
 }
 
-function YearCard({ years, isFinal }) {
+function YearCard({ slide }) {
+  if (slide.isFinal) {
+    return (
+      <section className="yearCard finalCard">
+        <FireworkShow />
+        <div className="eventHeader finalHeader">
+          <p>{EVENT_NAME}</p>
+          <span>{EVENT_SUBTITLE}</span>
+        </div>
+        <div className="finalContent">
+          <div className="finalYear">2026</div>
+          <h1>{FINAL_TITLE}</h1>
+          <p>Ta-Da • အောင်ပွဲခံတေးဂီတ • Gold & Silver Fireworks</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className={`yearCard ${isFinal ? 'finalCard' : ''}`}>
-      {isFinal && <FireworkShow />}
+    <section className="yearCard">
       <div className="eventHeader">
         <p>{EVENT_NAME}</p>
         <span>{EVENT_SUBTITLE}</span>
       </div>
       <div className="cardContent">
         <div className="yearStack">
-          {years.map((year) => (
-            <h1 className="yearText" key={year}>{year}</h1>
-          ))}
+          <span className="slideTime">{slide.time}</span>
+          <h1 className="yearText">{slide.year}</h1>
+          <h2>{slide.title}</h2>
         </div>
-        <div className={`placeholderGrid count${years.length}`}>
-          {years.map((year, index) => (
-            <YearImagePlaceholder key={year} year={year} index={index} />
-          ))}
-        </div>
+        <TimelinePhoto slide={slide} />
       </div>
-      {isFinal && <div className="finalMessage">Silver Jubilee Memories • 2001–2026</div>}
     </section>
   );
 }
 
 export default function Home() {
-  const yearCards = useMemo(createYearCards, []);
   const [cardIndex, setCardIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
-  const currentYears = yearCards[cardIndex];
-  const isFinal = currentYears.includes(END_YEAR);
 
   const goToCard = (direction) => {
-    setCardIndex((current) => Math.min(Math.max(current + direction, 0), yearCards.length - 1));
+    setCardIndex((current) => Math.min(Math.max(current + direction, 0), slides.length - 1));
   };
 
   const handlePointerStart = (event) => {
@@ -159,12 +225,12 @@ export default function Home() {
     >
       <MemoryNodes />
       <div className="cardTrack" style={{ transform: `translateX(-${cardIndex * 100}vw)` }}>
-        {yearCards.map((years) => (
-          <YearCard key={years.join('-')} years={years} isFinal={years.includes(END_YEAR)} />
+        {slides.map((slide) => (
+          <YearCard key={slide.year} slide={slide} />
         ))}
       </div>
-      <div className="navigationHint">Swipe / drag left or right • Offline ready after first load</div>
-      <div className="progressPill">{cardIndex + 1} / {yearCards.length}</div>
+      <div className="navigationHint">Swipe / drag left or right • APK/PWA install ပြီး offline ကြည့်နိုင်သည်</div>
+      <div className="progressPill">{cardIndex + 1} / {slides.length}</div>
     </main>
   );
 }

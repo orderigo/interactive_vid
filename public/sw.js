@@ -1,10 +1,15 @@
-const CACHE_NAME = 'interactive-vid-pwa-v1';
+const CACHE_NAME = 'interactive-vid-pwa-v2';
 const APP_SHELL = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icons/icon-192.svg',
-  '/icons/icon-512.svg'
+  '/icons/icon-512.svg',
+  '/img/Screenshot_20260721-101836.png',
+  '/img/Screenshot_20260721-101925.png',
+  '/img/Screenshot_20260721-102147.png',
+  '/img/Screenshot_20260721-103154.png',
+  '/img/Screenshot_20260721-105110.png'
 ];
 
 self.addEventListener('install', (event) => {

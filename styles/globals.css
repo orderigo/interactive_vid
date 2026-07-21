@@ -338,3 +338,157 @@ body {
     min-height: 140px;
   }
 }
+
+.slideTime {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 214, 90, 0.42);
+  border-radius: 999px;
+  color: #ffe58c;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  background: rgba(255, 214, 90, 0.11);
+}
+
+.yearStack h2 {
+  margin: 6px 0 0;
+  font-size: clamp(22px, 3.2vw, 48px);
+  line-height: 1.18;
+  text-shadow: 0 0 24px rgba(125, 238, 255, 0.38);
+}
+
+.timelinePhoto {
+  position: relative;
+  margin: 0;
+  min-height: clamp(280px, 52vh, 520px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: clamp(24px, 3vw, 42px);
+  background: linear-gradient(135deg, rgba(255, 223, 116, 0.12), rgba(116, 230, 255, 0.08));
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45), inset 0 0 54px rgba(255, 255, 255, 0.12);
+}
+
+.timelinePhoto::before {
+  content: '';
+  position: absolute;
+  inset: 18px;
+  z-index: 2;
+  border: 1px dashed rgba(255, 232, 160, 0.55);
+  border-radius: clamp(18px, 2.4vw, 32px);
+  pointer-events: none;
+}
+
+.timelinePhoto::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 42%, rgba(0, 0, 0, 0.72));
+  pointer-events: none;
+}
+
+.timelinePhoto img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+  filter: saturate(1.08) contrast(1.04);
+  transform: scale(1.02);
+}
+
+.timelinePhoto figcaption {
+  position: absolute;
+  left: clamp(24px, 3vw, 42px);
+  right: clamp(24px, 3vw, 42px);
+  bottom: clamp(22px, 3vw, 38px);
+  z-index: 3;
+  font-size: clamp(15px, 1.7vw, 22px);
+  font-weight: 700;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.75);
+}
+
+.timelinePhoto figcaption span {
+  display: block;
+  margin-bottom: 8px;
+  color: #ffe58c;
+  font-size: 0.78em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.finalHeader {
+  top: clamp(24px, 4vh, 52px);
+}
+
+.finalContent {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: min(1180px, 92vw);
+  text-align: center;
+}
+
+.finalYear {
+  font-size: clamp(110px, 23vw, 330px);
+  font-weight: 1000;
+  line-height: 0.78;
+  letter-spacing: -0.08em;
+  background: linear-gradient(180deg, #ffffff, #ffe27a 28%, #ffbf2f 58%, #fff3bd);
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 38px rgba(255, 213, 74, 0.92));
+  animation: yearFloat 3.2s ease-in-out infinite;
+}
+
+.finalContent h1 {
+  margin: clamp(18px, 3vh, 36px) 0 0;
+  max-width: 1100px;
+  font-size: clamp(34px, 6.7vw, 98px);
+  line-height: 1.12;
+  color: #ffd968;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.86), 0 0 34px rgba(255, 198, 51, 0.92), 0 8px 42px rgba(0, 0, 0, 0.68);
+}
+
+.finalContent p {
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: clamp(16px, 2vw, 28px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.rocketTrail {
+  position: absolute;
+  bottom: -14vh;
+  width: 5px;
+  height: 26vh;
+  border-radius: 999px;
+  background: linear-gradient(0deg, transparent, rgba(255, 214, 90, 0.95), rgba(255, 255, 255, 0));
+  filter: drop-shadow(0 0 18px rgba(255, 214, 90, 0.9));
+  animation: rocketRise 2.6s ease-in infinite;
+}
+
+.firework0 { color: #ffd65a; }
+.firework1 { color: #ffffff; box-shadow: 0 -42px 0 #fff, 30px -30px 0 #ffd65a, 42px 0 0 #fff, 30px 30px 0 #c4f1ff, 0 42px 0 #ffd65a, -30px 30px 0 #fff, -42px 0 0 #ffd65a, -30px -30px 0 #fff; }
+.firework2 { color: #ffd65a; box-shadow: 0 -42px 0 #ffd65a, 30px -30px 0 #fff4b8, 42px 0 0 #ffbf2f, 30px 30px 0 #fff, 0 42px 0 #ffd65a, -30px 30px 0 #fff, -42px 0 0 #ffbf2f, -30px -30px 0 #fff4b8; }
+.firework3 { color: #ffffff; }
+
+@keyframes rocketRise {
+  0% { opacity: 0; transform: translateY(0) scaleY(0.35); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-92vh) scaleY(1); }
+}
+
+@media (max-width: 820px) {
+  .timelinePhoto {
+    min-height: 220px;
+  }
+
+  .finalContent h1 {
+    font-size: clamp(30px, 9vw, 62px);
+  }
+}

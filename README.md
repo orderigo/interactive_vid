@@ -1,12 +1,12 @@
 # Interactive Video Presentation - Rangoon West University 25th Anniversary
 
-Interactive touchscreen web app for the Rangoon West University 25th Anniversary Golden Jubilee celebration (2001-2026).
+Interactive touchscreen web app for the Rangoon West University 25th Anniversary Silver Jubilee celebration (2001-2026), using the local photos in `public/img/` and installable for offline viewing as a PWA/APK-style web app.
 
 ## Features
 
 - Touchscreen Support: Full touch and swipe gesture support
-- Interactive Year Grid: 26 years (2001-2026) arranged in a beautiful 3D circular layout
-- Image Preview: Each year displays associated images when selected
+- Story Slides: swipe through 2001, 2002, 2005, 2010, 2015, 2020, 2024, and the 2026 finale
+- Local Photos: the first five slides use the five bundled images from `public/img/`, with later slides reusing local assets for offline safety
 - Fireworks Animation: Spectacular fireworks rising from below on final year (2026)
 - Event Display: Shows "ရန်ကုန်အနောက်ပိုင်းတက္ကသိုလ် (၂၅) နှစ်မြောက်ငွေရတုအထိမ်းအမှတ်" with golden effects
 - Keyboard Navigation: Full keyboard support (arrows, ESC, Home, End)
@@ -40,7 +40,7 @@ Open http://localhost:3000 in your browser.
 ## Customization
 
 ### Adding Year Images
-Replace the placeholder image URLs in the yearImages object with your actual university images.
+Update the `slideImages` array in `pages/index.js` with files placed in `public/img/`. Keep paths beginning with `/img/` so the service worker can cache them for offline use.
 
 ### Event Information
 Modify the event name and subtitle at the top of pages/index.js.
@@ -88,6 +88,11 @@ When reaching 2026:
 - Spectacular fireworks launch from below the screen
 - Decorative particles orbit the title
 - Special glow effects on all elements
+
+
+## APK / Offline Install
+
+The app is configured as an installable PWA with `public/manifest.json` and `public/sw.js`. After the first successful load from a web server, Android Chrome can use **Add to Home screen / Install app** so it behaves like an APK-style offline app. For a true `.apk`, wrap the exported `out/` folder with a PWA wrapper such as Trusted Web Activity/Bubblewrap.
 
 ## Offline Browser Package
 
