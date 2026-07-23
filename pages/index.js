@@ -1,74 +1,21 @@
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 
 const EVENT_NAME = 'ရန်ကုန်အနောက်ပိုင်းတက္ကသိုလ်';
-const EVENT_SUBTITLE = '(၂၅) နှစ်မြောက်ငွေရတုအခမ်းအနား';
-const FINAL_TITLE = 'ရန်ကုန်အနောက်ပိုင်းတက္ကသိုလ် (၂၅) နှစ်မြောက်ငွေရတုအခမ်းအနား';
-const END_YEAR = 2026;
+const MEMORY_TITLE = 'ကျောင်းအမှတ်တရ အစ';
 
-const slideImages = [
+const campusPhotos = [
   '/img/Screenshot_20260721-101836.png',
   '/img/Screenshot_20260721-101925.png',
   '/img/Screenshot_20260721-102147.png',
   '/img/Screenshot_20260721-103154.png',
-  '/img/Screenshot_20260721-105110.png',
 ];
 
 const slides = [
-  {
-    year: 2001,
-    image: slideImages[0],
-    title: 'ကျောင်းအမှတ်တရအစ',
-    caption: 'ကျောင်းဓာတ်ပုံကို အကြမ်းထည် placeholder မှာ ထည့်သွင်းပြသထားသည်။',
-    time: '0:00 - 0:06',
-  },
-  {
-    year: 2002,
-    image: slideImages[1],
-    title: 'စာသင်ခန်းနှင့် ကျောင်းလှုပ်ရှားမှု',
-    caption: 'လက်ညှိုးဖြင့် ဘယ်ဘက်သို့ ဆွဲလျှင် နောက်နှစ်အမှတ်တရသို့ ပြောင်းပါသည်။',
-    time: '0:06 - 0:09',
-  },
-  {
-    year: 2005,
-    image: slideImages[2],
-    title: 'နှစ်ပတ်လည် / ပညာရေးပွဲ',
-    caption: 'တေးဂီတသာဖြင့် အမှတ်တရပုံရိပ်ကို အလင်းတန်းနှင့် ပြသထားသည်။',
-    time: '0:09 - 0:12',
-  },
-  {
-    year: 2010,
-    image: slideImages[3],
-    title: 'ကျောင်းဝန်းကျင်နှင့် စုပေါင်းအမှတ်တရ',
-    caption: 'ကျောင်းဝန်းကျင် ရှုခင်း သို့မဟုတ် ဆရာ/ကျောင်းသား စုပေါင်းဓာတ်ပုံနေရာ။',
-    time: '0:12 - 0:15',
-  },
-  {
-    year: 2015,
-    image: slideImages[4],
-    title: 'ဘွဲ့နှင်းသဘင် / Field Trip',
-    caption: 'စည်းချက်ပိုတက်လာသော အခန်းကဏ္ဍအတွက် အမှတ်တရဓာတ်ပုံ။',
-    time: '0:15 - 0:18',
-  },
-  {
-    year: 2020,
-    image: slideImages[0],
-    title: 'Online Class / Mask အမှတ်တရ',
-    caption: 'COVID-19 ကာလအတွင်း လေ့လာသင်ယူမှုများကို ပြန်လည်မြင်တွေ့စေသည်။',
-    time: '0:18 - 0:21',
-  },
-  {
-    year: 2024,
-    image: slideImages[1],
-    title: 'ပြန်လည်လှုပ်ရှားလာသော ကျောင်းဘဝ',
-    caption: 'စာကြည့်တိုက်၊ အားကစားပြိုင်ပွဲနှင့် မကြာသေးမီက လှုပ်ရှားမှုများ။',
-    time: '0:21 - 0:24',
-  },
-  {
-    year: END_YEAR,
-    isFinal: true,
-    time: '0:24 - 0:30',
-  },
+  { year: 2001, type: 'intro' },
+  { year: 2001, type: 'particles' },
 ];
 
 function MemoryNodes() {
@@ -113,80 +60,118 @@ function MemoryNodes() {
   );
 }
 
-function TimelinePhoto({ slide }) {
+function FloatingPhoto({ src, index }) {
   return (
-    <figure className="timelinePhoto">
-      <Image src={slide.image} alt={`${slide.year} ${slide.title}`} fill sizes="(max-width: 820px) 88vw, 48vw" priority draggable="false" />
-      <figcaption>
-        <span>{slide.time}</span>
-        {slide.caption}
-      </figcaption>
+    <figure className={`floatingPhoto floatingPhoto${index + 1}`}>
+      <Image src={src} alt={`2001 campus memory ${index + 1}`} fill sizes="(max-width: 820px) 44vw, 28vw" priority draggable="false" />
     </figure>
   );
 }
 
-function FireworkShow() {
+function ParticleField() {
+  const pointsRef = useRef();
+  const groupRef = useRef();
+  const particleCount = 2600;
+
+  const { positions, targets, colors } = useMemo(() => {
+    const startPositions = new Float32Array(particleCount * 3);
+    const targetPositions = new Float32Array(particleCount * 3);
+    const colorValues = new Float32Array(particleCount * 3);
+    const color = new THREE.Color();
+
+    for (let i = 0; i < particleCount; i += 1) {
+      const i3 = i * 3;
+      const angle = i * 0.055;
+      const radius = 4.6 + Math.sin(i * 0.013) * 1.8;
+      startPositions[i3] = Math.cos(angle) * radius + (Math.random() - 0.5) * 5;
+      startPositions[i3 + 1] = (Math.random() - 0.5) * 5.8;
+      startPositions[i3 + 2] = Math.sin(angle) * radius + (Math.random() - 0.5) * 5;
+
+      const photo = i % 4;
+      const gridIndex = Math.floor(i / 4);
+      const column = gridIndex % 34;
+      const row = Math.floor(gridIndex / 34) % 20;
+      const photoX = photo % 2 === 0 ? -1.85 : 1.85;
+      const photoY = photo < 2 ? 1.18 : -1.18;
+      targetPositions[i3] = photoX + (column / 33 - 0.5) * 2.65;
+      targetPositions[i3 + 1] = photoY + (row / 19 - 0.5) * 1.48;
+      targetPositions[i3 + 2] = Math.sin(column * 0.4 + row * 0.25) * 0.12;
+
+      color.setHSL(0.52 + photo * 0.06 + Math.random() * 0.08, 0.9, 0.58 + Math.random() * 0.25);
+      colorValues[i3] = color.r;
+      colorValues[i3 + 1] = color.g;
+      colorValues[i3 + 2] = color.b;
+    }
+
+    return { positions: startPositions, targets: targetPositions, colors: colorValues };
+  }, []);
+
+  useFrame(({ clock }) => {
+    if (!pointsRef.current) return;
+    const elapsed = clock.getElapsedTime();
+    const current = pointsRef.current.geometry.attributes.position.array;
+    const morph = THREE.MathUtils.smoothstep(Math.min(elapsed / 4.2, 1), 0, 1);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      const wave = Math.sin(elapsed * 1.6 + i * 0.013) * 0.035;
+      current[i] = THREE.MathUtils.lerp(positions[i], targets[i], morph) + wave;
+      current[i + 1] = THREE.MathUtils.lerp(positions[i + 1], targets[i + 1], morph) + Math.cos(elapsed * 1.4 + i * 0.011) * 0.03;
+      current[i + 2] = THREE.MathUtils.lerp(positions[i + 2], targets[i + 2], morph);
+    }
+
+    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    groupRef.current.rotation.y = Math.sin(elapsed * 0.28) * 0.12;
+  });
+
   return (
-    <div className="fireworkLayer" aria-hidden="true">
-      {Array.from({ length: 20 }, (_, index) => (
-        <span
-          className={`firework firework${index % 4}`}
-          key={index}
-          style={{
-            left: `${6 + ((index * 11) % 88)}%`,
-            top: `${8 + ((index * 19) % 62)}%`,
-            animationDelay: `${index * 0.16}s`,
-          }}
-        />
-      ))}
-      {Array.from({ length: 10 }, (_, index) => (
-        <span
-          className="rocketTrail"
-          key={`trail-${index}`}
-          style={{
-            left: `${10 + index * 9}%`,
-            animationDelay: `${index * 0.24}s`,
-          }}
-        />
-      ))}
-    </div>
+    <group ref={groupRef}>
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={particleCount} array={positions} itemSize={3} />
+          <bufferAttribute attach="attributes-color" count={particleCount} array={colors} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial size={0.038} vertexColors transparent opacity={0.9} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </points>
+    </group>
+  );
+}
+
+function ParticleMemorySlide() {
+  return (
+    <section className="yearCard particleCard">
+      <div className="particleCanvas">
+        <Canvas camera={{ position: [0, 0, 6.8], fov: 46 }} dpr={[1, 1.8]}>
+          <color attach="background" args={['#02040f']} />
+          <ambientLight intensity={0.8} />
+          <ParticleField />
+        </Canvas>
+      </div>
+      <div className="particleScan" />
+      <div className="particleHalo" />
+    </section>
+  );
+}
+
+function IntroSlide() {
+  return (
+    <section className="yearCard introCard">
+      <header className="memoryTitle">
+        <p>{EVENT_NAME}</p>
+        <h1>2001</h1>
+        <h2>{MEMORY_TITLE}</h2>
+      </header>
+      <div className="floatingPhotoWall" aria-label="2001 campus memory photos">
+        {campusPhotos.map((src, index) => (
+          <FloatingPhoto src={src} index={index} key={src} />
+        ))}
+      </div>
+    </section>
   );
 }
 
 function YearCard({ slide }) {
-  if (slide.isFinal) {
-    return (
-      <section className="yearCard finalCard">
-        <FireworkShow />
-        <div className="eventHeader finalHeader">
-          <p>{EVENT_NAME}</p>
-          <span>{EVENT_SUBTITLE}</span>
-        </div>
-        <div className="finalContent">
-          <div className="finalYear">2026</div>
-          <h1>{FINAL_TITLE}</h1>
-          <p>Ta-Da • အောင်ပွဲခံတေးဂီတ • Gold & Silver Fireworks</p>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className="yearCard">
-      <div className="eventHeader">
-        <p>{EVENT_NAME}</p>
-        <span>{EVENT_SUBTITLE}</span>
-      </div>
-      <div className="cardContent">
-        <div className="yearStack">
-          <span className="slideTime">{slide.time}</span>
-          <h1 className="yearText">{slide.year}</h1>
-          <h2>{slide.title}</h2>
-        </div>
-        <TimelinePhoto slide={slide} />
-      </div>
-    </section>
-  );
+  if (slide.type === 'particles') return <ParticleMemorySlide />;
+  return <IntroSlide />;
 }
 
 export default function Home() {
@@ -226,11 +211,9 @@ export default function Home() {
       <MemoryNodes />
       <div className="cardTrack" style={{ transform: `translateX(-${cardIndex * 100}vw)` }}>
         {slides.map((slide) => (
-          <YearCard key={slide.year} slide={slide} />
+          <YearCard key={`${slide.year}-${slide.type}`} slide={slide} />
         ))}
       </div>
-      <div className="navigationHint">Swipe / drag left or right • APK/PWA install ပြီး offline ကြည့်နိုင်သည်</div>
-      <div className="progressPill">{cardIndex + 1} / {slides.length}</div>
     </main>
   );
 }
